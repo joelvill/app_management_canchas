@@ -79,7 +79,8 @@ class SchedulingItem extends StatelessWidget {
           const SizedBox(
             height: 5.0,
           ),
-          _iconWithText(Icons.cloud, 'Probabilidad de lluvia:', '70%'),
+          _iconWithText(Icons.cloud, 'Probabilidad de lluvia:',
+              forecast(scheduling.forecast)),
         ],
       ),
       trailing: IconButton(
@@ -93,6 +94,14 @@ class SchedulingItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String forecast(double f) {
+    if (f > 0) {
+      return '${scheduling.forecast}%';
+    } else {
+      return 'Sin pronóstico';
+    }
   }
 
   Widget _iconWithText(IconData icon, String textOne, String textSecond) {

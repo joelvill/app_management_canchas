@@ -31,12 +31,14 @@ class SchedulingModel {
     required this.date,
     required this.user,
     required this.canchaId,
+    required this.forecast,
   });
 
   String id;
   DateTime date;
   String user;
   int canchaId;
+  double forecast;
 
   factory SchedulingModel.fromJson(Map<String, dynamic> json) =>
       SchedulingModel(
@@ -44,6 +46,7 @@ class SchedulingModel {
         date: DateTime.parse(json["date"]),
         user: json["user"],
         canchaId: json["cancha_id"],
+        forecast: json["forecast"] == null ? 0 : json["forecast"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,5 +55,6 @@ class SchedulingModel {
             "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
         "user": user,
         "cancha_id": canchaId,
+        "forecast": forecast,
       };
 }

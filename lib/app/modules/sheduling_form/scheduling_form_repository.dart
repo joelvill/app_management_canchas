@@ -5,5 +5,5 @@ class SchedulingFormRepository {
 
   SchedulingFormRepository(this.api);
 
-  Future<int> getPercentage(String date) async => api.getPercentage(date);
+  Future<double> getPercentage(String date) async => api.getPercentage(date);
 }

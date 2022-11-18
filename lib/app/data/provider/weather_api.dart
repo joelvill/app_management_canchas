@@ -6,7 +6,7 @@ class WeatherApi {
   final Dio _dio;
   WeatherApi(this._dio);
 
-  Future<int> getPercentage(String date) async {
+  Future<double> getPercentage(String date) async {
     final Response response = await _dio.get('/future.json', queryParameters: {
       "key": Constants.WAETHER_API_KEY,
       "q": "London",

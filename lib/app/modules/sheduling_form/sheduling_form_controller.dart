@@ -48,37 +48,35 @@ class SchedulingFormController extends GetxController with CacheManager {
 
   Future<void> onSubmit() async {
     if (formKey.currentState!.validate()) {
+      List<SchedulingModel> schedulingList = [];
+      String? listSchedulingString = getScheduling();
+      double forecast = 0;
+
+      final data = {
+        "id": uuid.v1(),
+        "date": dateInput.text,
+        "user": userInput.text,
+        "cancha_id": int.parse(selectCancha),
+        "forecast": forecast,
+      };
+
       try {
-        final data = {
-          "id": uuid.v1(),
-          "date": dateInput.text,
-          "user": userInput.text,
-          "cancha_id": int.parse(selectCancha),
-        };
-        final SchedulingModel scheduling = SchedulingModel.fromJson(data);
-
-        List<SchedulingModel> schedulingList = [];
-        String? listSchedulingString = getScheduling();
-
-        if (listSchedulingString == null) {
-          schedulingList.add(scheduling);
-        } else {
-          schedulingList = schedulingListModelFromJson(getScheduling() ?? '');
-          schedulingList.add(scheduling);
-        }
-
-        saveScheduling(schedulingListModelToJson(schedulingList));
-
         final res = await _repository.getPercentage(dateInput.text);
+        data['forecast'] = res;
       } catch (e) {
-        Get.snackbar(
-          'Error!',
-          'No se pudo obtener el pronostico!',
-          backgroundColor: Colors.redAccent.withOpacity(0.75),
-          colorText: Colors.white,
-        );
         print(e);
       }
+
+      final SchedulingModel scheduling = SchedulingModel.fromJson(data);
+
+      if (listSchedulingString == null) {
+        schedulingList.add(scheduling);
+      } else {
+        schedulingList = schedulingListModelFromJson(getScheduling() ?? '');
+        schedulingList.add(scheduling);
+      }
+
+      saveScheduling(schedulingListModelToJson(schedulingList));
 
       Get.offAllNamed(
         AppRoutes.HOME,
